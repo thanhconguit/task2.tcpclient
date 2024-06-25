@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
+﻿using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
 using TCPClient.EventPublisher.EventHandler.Interface;
 using TCPClient.EventPublisher.Logger.Interface;
 
@@ -14,10 +10,10 @@ namespace TCPClient.EventPublisher.EventHandler
         private readonly ILogCommunication _logger;
         private readonly ServerConfiguration _serverConfiguration;
 
-        public EvenHandler(ILogCommunication logger, ServerConfiguration serverConfiguration )
+        public EvenHandler(ILogCommunication logger, ServerConfiguration serverConfiguration)
         {
             _logger = logger;
-           _serverConfiguration = serverConfiguration;
+            _serverConfiguration = serverConfiguration;
         }
 
         public async Task SendEventAsync(string eventData)
@@ -33,13 +29,13 @@ namespace TCPClient.EventPublisher.EventHandler
                         await networkStream.WriteAsync(data, 0, data.Length);
 
                         // Log the sent event
-                        await _logger.LogCommunicationAsync($"Sent: {eventData}");
+                        _logger.LogCommunicationAsync($"Sent: {eventData}");
                     }
                 }
             }
             catch (Exception ex)
             {
-                await _logger.LogCommunicationAsync($"Error: {ex.Message}");
+                _logger.LogCommunicationAsync($"Error: {ex.Message}");
                 throw;
             }
         }

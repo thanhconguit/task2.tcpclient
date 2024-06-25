@@ -8,6 +8,6 @@ namespace TCPClient.EventPublisher.Logger.Interface
 {
     public interface ILogCommunication
     {
-        Task LogCommunicationAsync(string message);
+        void LogCommunicationAsync(string message);
     }
 }

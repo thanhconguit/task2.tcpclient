@@ -1,23 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Extensions.Logging;
 using TCPClient.EventPublisher.Logger.Interface;
 
 namespace TCPClient.EventPublisher.Logger
 {
     public class LogCommunication : ILogCommunication
     {
-        private readonly string _logFilePath;
-
-        public LogCommunication (LogConfiguration logConfiguration)
+        private readonly ILogger<LogCommunication> _logger;
+        public LogCommunication(ILogger<LogCommunication> logger)
         {
-            _logFilePath = logConfiguration.FilePath; 
+            _logger = logger;
         }
-        public async Task LogCommunicationAsync(string message)
+        public void LogCommunicationAsync(string message)
         {
-            await File.AppendAllTextAsync(_logFilePath, $"{DateTime.Now}: {message}{Environment.NewLine}");
+            _logger.LogInformation($"{DateTime.Now}: {message}{Environment.NewLine}");
         }
     }
 }

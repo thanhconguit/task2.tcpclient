@@ -1,8 +1,18 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Serilog;
 using TCPClient;
 using TCPClient.EventPublisher.EventHandler.Interface;
+
+var host = Host.CreateDefaultBuilder(args)
+    .UseSerilog((context, services, configuration) => configuration
+        .ReadFrom.Configuration(context.Configuration)
+        .Enrich.FromLogContext()
+        .WriteTo.Console()
+    )
+    .Build();
 
 var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())

@@ -18,8 +18,9 @@ namespace TCPClient
 
             var serviceProvider = new ServiceCollection()
                 .AddSingleton(serverConfiguration)
-                .AddScoped<IEventHandler, TCPClient.EventPublisher.EventHandler.EvenHandler>()
+                .AddLogging()
                 .AddScoped<ILogCommunication, LogCommunication>()
+                .AddScoped<IEventHandler, TCPClient.EventPublisher.EventHandler.EvenHandler>()
                 .BuildServiceProvider();
 
             return serviceProvider;

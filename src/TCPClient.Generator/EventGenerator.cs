@@ -16,7 +16,7 @@ public static class EventGenerator
                 randomString[j] = chars[Random.Next(chars.Length)];
             }
 
-            events.Add($"{DateTime.UtcNow}: {new string(randomString)}");
+            events.Add($"{new string(randomString)}");
         }
 
         return events;

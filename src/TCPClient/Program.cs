@@ -5,6 +5,9 @@ using Microsoft.Extensions.Hosting;
 using Serilog;
 using TCPClient;
 using TCPClient.EventPublisher.EventHandler.Interface;
+using Newtonsoft.Json;
+using TCPClient.EventPublisher;
+
 
 var host = Host.CreateDefaultBuilder(args)
     .UseSerilog((context, services, configuration) => configuration
@@ -26,7 +29,15 @@ while (true)
     var events = EventGenerator.GenerateEvent(); // default batch number = 1
     foreach (var eventData in events)
     {
-        await eventHandler.SendEventAsync(eventData);
+        var @event = JsonConvert.SerializeObject(new Event()
+        {
+            Id = Guid.NewGuid(),
+            Data = eventData,
+            Timestamp = DateTime.UtcNow,
+            IsProcessed = false
+        });
+
+        await eventHandler.SendEventAsync(@event);
     }
 
     await Task.Delay(TimeSpan.FromSeconds(5));
